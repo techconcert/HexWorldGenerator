@@ -10,7 +10,7 @@ This document gives the next agent full context to continue immediately without 
 ```bash
 cd /Users/mac/Development/Projects/POC_Kaykit
 node server.js          # Dev server at http://localhost:8080/
-node test_batching_qa.js && node test_world_qa.js && node test_living_world_qa.js && node test_village_qa.js && node test_terrain_elevation_qa.js && node test_day_night_qa.js && node test_subhex_factions_qa.js
+npm run test:all        # Runs all 7 QA suites in tests/
 ```
 
 All 7 test suites currently pass at 100% (0 defects).
@@ -56,13 +56,10 @@ POC_Kaykit/
 ├── perfLogger.js              # Float64Array ring buffer FPS/sim telemetry
 ├── tileRegistry.js            # Interactive tile edge aligner
 ├── roadAutotile.js            # Road autotiling resolution
-├── test_batching_qa.js        # 24 geometry batching & spatial chunking tests
-├── test_world_qa.js           # 100-seed WFC/coast/river invariant tests
-├── test_living_world_qa.js    # 14 living world simulation tests
-├── test_village_qa.js         # Village cluster sizing + wall solver
-├── test_terrain_elevation_qa.js # Hill/mountain/forest terrain tests
-├── test_day_night_qa.js       # 31 day/night + roles + perf logger tests
-└── test_subhex_factions_qa.js # Sub-hex math + faction color cohesion
+├── tests/                     # 7 automated QA test suites (batching, world, living, etc.)
+├── scripts/                   # Headless screenshot & benchmark runners
+├── tools/                     # Standalone dev viewers
+└── docs/                      # Architectural specs & documentation
 ```
 
 ### Animation Loop (hot path — `main.js:116–202`)

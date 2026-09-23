@@ -1,7 +1,7 @@
-import { generateWorldData } from "./worldGenerator.js";
-import { LivingWorldNavMesh } from "./livingWorldNavMesh.js";
-import { LivingUnitManager } from "./livingUnitManager.js";
-import { getHexSubAreaLocal, getHexSubAreaWorld } from "./hexMath.js";
+import { generateWorldData } from "../worldGenerator.js";
+import { LivingWorldNavMesh } from "../livingWorldNavMesh.js";
+import { LivingUnitManager } from "../livingUnitManager.js";
+import { getHexSubAreaLocal, getHexSubAreaWorld } from "../hexMath.js";
 
 console.log("================================================================");
 console.log("  ⬡ SUB-HEX AREAS, VILLAGE COLORS & FANTASY NAMES QA SUITE ⬡");

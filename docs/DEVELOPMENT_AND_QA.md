@@ -38,14 +38,17 @@ This document establishes the testing protocols, zero-regression invariants, aut
 All suites run headlessly in Node.js without a browser window or display server.
 
 ```bash
-# Run all 7 suites in sequence (must all exit 0):
-node test_batching_qa.js && \
-node test_world_qa.js && \
-node test_living_world_qa.js && \
-node test_village_qa.js && \
-node test_terrain_elevation_qa.js && \
-node test_day_night_qa.js && \
-node test_subhex_factions_qa.js
+# Run all 7 suites via npm:
+npm run test:all
+
+# Or run sequentially with node:
+node tests/test_batching_qa.js && \
+node tests/test_world_qa.js && \
+node tests/test_living_world_qa.js && \
+node tests/test_village_qa.js && \
+node tests/test_terrain_elevation_qa.js && \
+node tests/test_day_night_qa.js && \
+node tests/test_subhex_factions_qa.js
 ```
 
 ---
@@ -55,7 +58,7 @@ node test_subhex_factions_qa.js
 Tests 100 randomly seeded rectangular and hexagonal dioramas for topographical, coastline, river, and road network invariants.
 
 ```bash
-node test_world_qa.js
+node tests/test_world_qa.js
 ```
 
 **Coverage**:
@@ -72,7 +75,7 @@ node test_world_qa.js
 Validates citizen lifecycle, pool limits, and behavioural logic.
 
 ```bash
-node test_living_world_qa.js
+node tests/test_living_world_qa.js
 ```
 
 **Coverage**:
@@ -91,7 +94,7 @@ node test_living_world_qa.js
 Validates village cluster sizing rules and perimeter wall solver correctness.
 
 ```bash
-node test_village_qa.js
+node tests/test_village_qa.js
 ```
 
 **Coverage**:
@@ -108,7 +111,7 @@ node test_village_qa.js
 Validates 3D heightfield traversal and obstacle bounding cylinders.
 
 ```bash
-node test_terrain_elevation_qa.js
+node tests/test_terrain_elevation_qa.js
 ```
 
 **Coverage**:
@@ -126,7 +129,7 @@ node test_terrain_elevation_qa.js
 Validates the 24-hour astronomical cycle and diurnal citizen behaviours.
 
 ```bash
-node test_day_night_qa.js
+node tests/test_day_night_qa.js
 ```
 
 **Coverage**:
@@ -145,7 +148,7 @@ node test_day_night_qa.js
 Verifies sub-hex coordinate math and village faction consistency.
 
 ```bash
-node test_subhex_factions_qa.js
+node tests/test_subhex_factions_qa.js
 ```
 
 **Coverage**:
@@ -162,7 +165,7 @@ node test_subhex_factions_qa.js
 Validates spatial chunked geometry merging, draw call reduction, and Three.js view frustum culling.
 
 ```bash
-node test_batching_qa.js
+node tests/test_batching_qa.js
 ```
 
 **Coverage**:
@@ -179,19 +182,19 @@ node test_batching_qa.js
 
 ---
 
-## 3. Headless Chrome Visual Verification (`capture_qa_screenshot.js`)
+## 3. Headless Chrome Visual Verification (`scripts/capture_qa_screenshot.js`)
 
 High-resolution WebGL screenshots are captured headlessly using Google Chrome's DevTools Protocol (CDP) over native WebSockets in Node 24:
 
 ```bash
 # Launch Chrome and capture daytime scene:
-node capture_qa_screenshot.js --time=12:30 --output=world_day.png
+node scripts/capture_qa_screenshot.js --time=12:30 --output=world_day.png
 
 # Capture dusk tavern scene:
-node capture_qa_screenshot.js --time=19:00 --output=world_dusk.png
+node scripts/capture_qa_screenshot.js --time=19:00 --output=world_dusk.png
 
 # Capture midnight sentry watch:
-node capture_qa_screenshot.js --time=23:00 --output=world_night.png
+node scripts/capture_qa_screenshot.js --time=23:00 --output=world_night.png
 ```
 
 ### CDP Runner Architecture

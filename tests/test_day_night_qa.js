@@ -8,11 +8,11 @@
  * 5. The 7 Dynamic Living World Roles
  */
 
-import { generateWorldData } from './worldGenerator.js';
-import { LivingWorldNavMesh } from './livingWorldNavMesh.js';
-import { LivingUnitManager } from './livingUnitManager.js';
-import { DayNightCycle } from './dayNightCycle.js';
-import { PerformanceLogger } from './perfLogger.js';
+import { generateWorldData } from '../worldGenerator.js';
+import { LivingWorldNavMesh } from '../livingWorldNavMesh.js';
+import { LivingUnitManager } from '../livingUnitManager.js';
+import { DayNightCycle } from '../dayNightCycle.js';
+import { PerformanceLogger } from '../perfLogger.js';
 
 let passedTests = 0;
 let totalTests = 0;

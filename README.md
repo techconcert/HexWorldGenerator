@@ -8,7 +8,7 @@
 
 | Daytime Village | River Networks | Dusk / Night |
 |---|---|---|
-| ![Large world with multi-river network](world_large_multi_rivers.png) | ![Hex multi-river map](world_large_hex_multi_rivers.png) | ![UI and rivers](world_large_ui_rivers.png) |
+| ![Large world with multi-river network](docs/images/world_large_multi_rivers.png) | ![Hex multi-river map](docs/images/world_large_hex_multi_rivers.png) | ![UI and rivers](docs/images/world_large_ui_rivers.png) |
 
 ---
 
@@ -94,22 +94,26 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ### 2. Run All QA Test Suites
 ```bash
-node test_batching_qa.js && \
-node test_world_qa.js && \
-node test_living_world_qa.js && \
-node test_village_qa.js && \
-node test_terrain_elevation_qa.js && \
-node test_day_night_qa.js && \
-node test_subhex_factions_qa.js
+npm run test:all
+```
+Or run the individual suites directly:
+```bash
+node tests/test_batching_qa.js && \
+node tests/test_world_qa.js && \
+node tests/test_living_world_qa.js && \
+node tests/test_village_qa.js && \
+node tests/test_terrain_elevation_qa.js && \
+node tests/test_day_night_qa.js && \
+node tests/test_subhex_factions_qa.js
 ```
 
 All 7 suites must pass at **100% (0 defects)**. See [docs/DEVELOPMENT_AND_QA.md](docs/DEVELOPMENT_AND_QA.md) for suite-by-suite details.
 
 ### 3. Capture Headless WebGL Screenshots (Chrome CDP)
 ```bash
-node capture_qa_screenshot.js --time=12:30 --output=world_day.png
-node capture_qa_screenshot.js --time=19:00 --output=world_dusk.png
-node capture_qa_screenshot.js --time=23:00 --output=world_night.png
+node scripts/capture_qa_screenshot.js --time=12:30 --output=world_day.png
+node scripts/capture_qa_screenshot.js --time=19:00 --output=world_dusk.png
+node scripts/capture_qa_screenshot.js --time=23:00 --output=world_night.png
 ```
 
 ---
@@ -117,11 +121,11 @@ node capture_qa_screenshot.js --time=23:00 --output=world_night.png
 ## 🗂️ Project Structure
 
 ```
-POC_Kaykit/
+HexWorldGenerator/
 ├── index.html                   # UI shell — sidebar, HUD, celestial dial, roster modal
 ├── styles.css                   # Glassmorphic stylesheet & animations
 ├── main.js                      # Animation loop, camera, UI wiring, subsystem coordination
-├── worldGenerator.js            # Procedural world & diorama builder (87 KB)
+├── worldGenerator.js            # Procedural world & diorama builder, geometry batcher
 ├── livingUnitManager.js         # Life simulation, DOTS engine, 7 roles, day/night schedules
 ├── livingUnitRenderer.js        # GPU InstancedMesh character & animal renderer
 ├── livingWorldNavMesh.js        # A* pathfinding, hill dome elevation, obstacle solver, POIs
@@ -133,21 +137,30 @@ POC_Kaykit/
 ├── tileCatalog.js               # Interactive 3D Tile Aligner UI
 ├── assetManifest.js             # 404-model manifest & texture atlas paths
 ├── server.js                    # Anti-cache Node.js dev server
-├── capture_qa_screenshot.js     # Chrome CDP headless WebGL screenshot utility
-├── test_batching_qa.js          # Static geometry batching & spatial chunking tests
-├── test_world_qa.js             # 100-seed WFC / coast / river / road invariant tests
-├── test_living_world_qa.js      # 250-unit cap, water exclusion, crop, horse tests
-├── test_village_qa.js           # Village cluster sizing & wall solver tests
-├── test_terrain_elevation_qa.js # Hill dome elevation & mountain collision tests
-├── test_day_night_qa.js         # Celestial phases, evening routines, 7 roles, perf logger
-├── test_subhex_factions_qa.js   # Sub-hex math, faction colour cohesion, city names
 ├── tile_registry_config.json    # Persisted user-validated edge socket tags (authoritative)
-├── docs/
+├── tests/                       # Automated QA test suites (100% pass rate)
+│   ├── test_batching_qa.js      # Static geometry batching & spatial chunking tests
+│   ├── test_world_qa.js         # 100-seed WFC / coast / river / road invariant tests
+│   ├── test_living_world_qa.js  # 250-unit cap, water exclusion, crop, horse tests
+│   ├── test_village_qa.js       # Village cluster sizing & wall solver tests
+│   ├── test_terrain_elevation_qa.js # Hill dome elevation & mountain collision tests
+│   ├── test_day_night_qa.js     # Celestial phases, evening routines, 7 roles, perf logger
+│   ├── test_subhex_factions_qa.js # Sub-hex math, faction colour cohesion, city names
+│   ├── test_coast_qa.js         # Coastline WFC invariant tests
+│   └── test_large_world_qa.js   # Large world multi-biome section tests
+├── scripts/                     # Standalone CLI tools & utilities
+│   ├── capture_qa_screenshot.js # Chrome CDP headless WebGL screenshot utility
+│   ├── run_browser_perf_benchmark.js # Browser benchmark runner
+│   └── unity_asset_tools.py     # Unity package extractor utility
+├── tools/                       # Developer inspection tools
+│   └── coast_viewer.html        # Standalone 3D coast tile preview tool
+├── docs/                        # Specifications & Architecture
 │   ├── ARCHITECTURE.md          # Subsystem architecture, DOTS layout, data flow
 │   ├── AUTOTILING_SPEC.md       # Hex math, 6-edge indexing, WFC rules
 │   ├── BIOMES_AND_TEXTURES.md   # Texture atlas system, biome mapping, faction palettes
 │   ├── ASSET_CATALOG.md         # Complete 404-model FBX inventory
-│   └── DEVELOPMENT_AND_QA.md   # Testing protocols, defect criteria, QA suite details
+│   ├── DEVELOPMENT_AND_QA.md   # Testing protocols, defect criteria, QA suite details
+│   └── images/                  # Screenshots & visual QA artifacts
 └── kaykit_full/                 # User-provided asset directory (git-ignored, not in repo)
     ├── Models/                  # FBX 3D models (tiles, buildings, units, props)
     └── Textures/                # Shared 1024×1024 texture atlases (Spring/Summer/Fall/Winter)

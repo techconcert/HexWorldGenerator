@@ -32,7 +32,7 @@
     ];
 
     const loader = new FBXLoader();
-    loader.setResourcePath('./kaykit_full/Textures/');
+    loader.setResourcePath('../kaykit_full/Textures/');
 
     tiles.forEach(file => {
       const card = document.createElement('div');
@@ -61,7 +61,7 @@
       scene.add(light);
       scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
-      loader.load(`./kaykit_full/Models/tiles/coast/${file}`, fbx => {
+      loader.load(`../kaykit_full/Models/tiles/coast/${file}`, fbx => {
         scene.add(fbx);
       });
 

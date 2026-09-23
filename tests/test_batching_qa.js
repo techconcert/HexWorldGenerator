@@ -18,8 +18,8 @@
  */
 
 import * as THREE from 'three';
-import { StaticGeometryBatcher, generateWorldData } from './worldGenerator.js';
-import { LivingWorldNavMesh } from './livingWorldNavMesh.js';
+import { StaticGeometryBatcher, generateWorldData } from '../worldGenerator.js';
+import { LivingWorldNavMesh } from '../livingWorldNavMesh.js';
 
 let passed = 0;
 let failed = 0;

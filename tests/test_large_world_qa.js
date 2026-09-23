@@ -9,8 +9,8 @@
  * 4. Zero WFC defects, zero river dangling dead ends, zero transition edge mismatches.
  */
 
-import { generateWorldData, getTileEdgeMaterial } from './worldGenerator.js';
-import { HEX_DIRECTIONS, getOppositeEdge } from './hexMath.js';
+import { generateWorldData, getTileEdgeMaterial } from '../worldGenerator.js';
+import { HEX_DIRECTIONS, getOppositeEdge } from '../hexMath.js';
 
 const getKey = (q, r) => `${q},${r}`;
 

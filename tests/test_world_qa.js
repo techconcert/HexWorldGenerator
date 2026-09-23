@@ -22,8 +22,8 @@
  *    - Multi-radius benchmarks (Radius 6, Radius 8, Radius 10) across 100+ seeds each
  */
 
-import { generateWorldData, getTileEdgeMaterial } from './worldGenerator.js';
-import { HEX_DIRECTIONS, getOppositeEdge } from './hexMath.js';
+import { generateWorldData, getTileEdgeMaterial } from '../worldGenerator.js';
+import { HEX_DIRECTIONS, getOppositeEdge } from '../hexMath.js';
 
 const getKey = (q, r) => `${q},${r}`;
 

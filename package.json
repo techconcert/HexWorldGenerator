@@ -1,18 +1,23 @@
 {
-  "name": "poc_kaykit",
+  "name": "hexworldgenerator",
   "version": "1.0.0",
   "description": "KayKit Procedural Hex World Generator with WFC Autotiling, Extended Biomes, and Fortified Villages",
   "main": "main.js",
   "scripts": {
     "start": "node server.js 8080",
-    "test": "node test_world_qa.js && node test_large_world_qa.js && node test_village_qa.js && node test_living_world_qa.js",
-    "test:world": "node test_world_qa.js",
-    "test:large": "node test_large_world_qa.js",
-    "test:village": "node test_village_qa.js",
-    "test:living": "node test_living_world_qa.js",
-    "test:coast": "node test_coast_qa.js",
-    "test:batching": "node test_batching_qa.js",
-    "capture": "node capture_qa_screenshot.js"
+    "test": "node tests/test_world_qa.js && node tests/test_large_world_qa.js && node tests/test_village_qa.js && node tests/test_living_world_qa.js",
+    "test:all": "node tests/test_batching_qa.js && node tests/test_world_qa.js && node tests/test_living_world_qa.js && node tests/test_village_qa.js && node tests/test_terrain_elevation_qa.js && node tests/test_day_night_qa.js && node tests/test_subhex_factions_qa.js",
+    "test:world": "node tests/test_world_qa.js",
+    "test:large": "node tests/test_large_world_qa.js",
+    "test:village": "node tests/test_village_qa.js",
+    "test:living": "node tests/test_living_world_qa.js",
+    "test:coast": "node tests/test_coast_qa.js",
+    "test:batching": "node tests/test_batching_qa.js",
+    "test:elevation": "node tests/test_terrain_elevation_qa.js",
+    "test:daynight": "node tests/test_day_night_qa.js",
+    "test:factions": "node tests/test_subhex_factions_qa.js",
+    "capture": "node scripts/capture_qa_screenshot.js",
+    "benchmark": "node scripts/run_browser_perf_benchmark.js"
   },
   "keywords": [
     "threejs",

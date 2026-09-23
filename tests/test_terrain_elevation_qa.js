@@ -1,5 +1,5 @@
-import { generateWorldData } from "./worldGenerator.js";
-import { LivingWorldNavMesh } from "./livingWorldNavMesh.js";
+import { generateWorldData } from "../worldGenerator.js";
+import { LivingWorldNavMesh } from "../livingWorldNavMesh.js";
 
 console.log("================================================================");
 console.log("  ⬡ TERRAIN ELEVATION & OBSTACLE COLLISION QA VERIFICATION ⬡");

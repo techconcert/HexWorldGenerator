@@ -10,8 +10,8 @@
  * 3. Adjacent Neighbor Edge Mismatches (e.g. sand meeting grass)
  */
 
-import { generateWorldData } from './worldGenerator.js';
-import { HEX_DIRECTIONS, getOppositeEdge } from './hexMath.js';
+import { generateWorldData } from '../worldGenerator.js';
+import { HEX_DIRECTIONS, getOppositeEdge } from '../hexMath.js';
 
 const getKey = (q, r) => `${q},${r}`;
 

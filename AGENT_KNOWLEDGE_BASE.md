@@ -43,13 +43,13 @@ Any logic or generator change must be verified against all suites before committ
 
 | Suite | Command | Tests |
 |---|---|---|
-| Geometry batching & frustum culling | `node test_batching_qa.js` | 24/24 |
-| World generation & WFC | `node test_world_qa.js` | 100/100 seeds |
-| Living world simulation | `node test_living_world_qa.js` | 14/14 |
-| Village clustering & walls | `node test_village_qa.js` | all |
-| Terrain elevation & obstacles | `node test_terrain_elevation_qa.js` | 9/9 |
-| Day/night & 7 roles | `node test_day_night_qa.js` | 31/31 |
-| Sub-hex & faction cohesion | `node test_subhex_factions_qa.js` | 4/4 |
+| Geometry batching & frustum culling | `node tests/test_batching_qa.js` | 24/24 |
+| World generation & WFC | `node tests/test_world_qa.js` | 100/100 seeds |
+| Living world simulation | `node tests/test_living_world_qa.js` | 14/14 |
+| Village clustering & walls | `node tests/test_village_qa.js` | all |
+| Terrain elevation & obstacles | `node tests/test_terrain_elevation_qa.js` | 9/9 |
+| Day/night & 7 roles | `node tests/test_day_night_qa.js` | 31/31 |
+| Sub-hex & faction cohesion | `node tests/test_subhex_factions_qa.js` | 4/4 |
 
 ### 3. Performance Budget Guardrails (< 5.0 ms Sim Tick)
 - All unit transforms must sync through flat DOTS columnar buffers (`dots.posX`, `dots.posY`, `dots.posZ`, `dots.yaw`, `dots.scale`).
@@ -173,16 +173,25 @@ POC_Kaykit/
 ├── tileRegistry.js              # Tile connector definitions & persistence
 ├── tileCatalog.js               # Interactive 3D Tile Aligner UI
 ├── assetManifest.js             # 404-model asset manifest & texture paths
-├── server.js                    # Anti-cache Node.js development server (primary)
-├── server.py                    # Anti-cache Python development server (fallback)
+├── server.js                    # Anti-cache Node.js development server
 ├── tile_registry_config.json    # Authoritative edge connector tagging configuration
-├── capture_qa_screenshot.js     # Native Node 24 WebSocket + Chrome CDP screenshot utility
-├── test_world_qa.js             # 100-seed world generation QA (coast, river, bridge, road)
-├── test_living_world_qa.js      # 250-unit simulation QA (water exclusion, crop, horse)
-├── test_village_qa.js           # Village cluster sizing & wall solver QA
-├── test_subhex_factions_qa.js   # Sub-hex roaming, faction colours & city names QA
-├── test_terrain_elevation_qa.js # Hill dome elevation & obstacle avoidance QA
-├── test_day_night_qa.js         # Day/night cycle, evening routines & 7 roles QA
-├── docs/                        # Detailed architectural specifications
-└── kaykit_full/                 # Complete 404 FBX models + 4 texture atlases
+├── tests/                       # Automated QA test suites (100% pass rate)
+│   ├── test_batching_qa.js      # Static geometry batching & spatial chunking tests
+│   ├── test_world_qa.js         # 100-seed world generation QA (coast, river, bridge, road)
+│   ├── test_living_world_qa.js  # 250-unit simulation QA (water exclusion, crop, horse)
+│   ├── test_village_qa.js       # Village cluster sizing & wall solver QA
+│   ├── test_terrain_elevation_qa.js # Hill dome elevation & obstacle avoidance QA
+│   ├── test_day_night_qa.js     # Day/night cycle, evening routines & 7 roles QA
+│   ├── test_subhex_factions_qa.js # Sub-hex roaming, faction colours & city names QA
+│   ├── test_coast_qa.js         # Coastline WFC invariant tests
+│   └── test_large_world_qa.js   # Large world multi-biome section tests
+├── scripts/                     # Standalone CLI tools & utilities
+│   ├── capture_qa_screenshot.js # Native Node 24 WebSocket + Chrome CDP screenshot utility
+│   ├── run_browser_perf_benchmark.js # Browser benchmark runner
+│   └── unity_asset_tools.py     # Unity package extractor utility
+├── tools/                       # Developer inspection tools
+│   └── coast_viewer.html        # Standalone 3D coast tile preview tool
+├── docs/                        # Detailed architectural specifications & documentation
+│   └── images/                  # Screenshots & visual QA artifacts
+└── kaykit_full/                 # User-provided asset directory (git-ignored, not in repo)
 ```

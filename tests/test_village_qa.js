@@ -4,8 +4,8 @@
  * Perimeter Wall Solving, and 1/4 Scale Sub-Tile Building Placement.
  */
 
-import { generateWorldData } from './worldGenerator.js';
-import { HEX_DIRECTIONS } from './hexMath.js';
+import { generateWorldData } from '../worldGenerator.js';
+import { HEX_DIRECTIONS } from '../hexMath.js';
 
 function getKey(q, r) {
   return `${q},${r}`;

@@ -11,9 +11,9 @@
  * 5. Performance benchmark on 50x50 map confirms sub-2ms update budget (ensuring 30+ FPS).
  */
 
-import { generateWorldData } from "./worldGenerator.js";
-import { LivingWorldNavMesh } from "./livingWorldNavMesh.js";
-import { LivingUnitManager } from "./livingUnitManager.js";
+import { generateWorldData } from "../worldGenerator.js";
+import { LivingWorldNavMesh } from "../livingWorldNavMesh.js";
+import { LivingUnitManager } from "../livingUnitManager.js";
 
 const getKey = (q, r) => q + "," + r;
 

@@ -1,0 +1,442 @@
+{
+  "road_A": {
+    "name": "Road A (Straight)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_A.fbx",
+    "edges": {
+      "0": "none",
+      "1": "road",
+      "2": "none",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_B": {
+    "name": "Road B (120\u00b0 Bend)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_B.fbx",
+    "edges": {
+      "0": "road",
+      "1": "none",
+      "2": "none",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_C": {
+    "name": "Road C (Sharp 60\u00b0 Bend)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_C.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "none",
+      "3": "none",
+      "4": "road",
+      "5": "road"
+    }
+  },
+  "road_D": {
+    "name": "Road D (Y-Junction)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_D.fbx",
+    "edges": {
+      "0": "road",
+      "1": "none",
+      "2": "road",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_E": {
+    "name": "Road E (T-Junction)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_E.fbx",
+    "edges": {
+      "0": "road",
+      "1": "road",
+      "2": "none",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_F": {
+    "name": "Road F (3-Way Branch)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_F.fbx",
+    "edges": {
+      "0": "none",
+      "1": "road",
+      "2": "road",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_G": {
+    "name": "Road G (3-Way Branch Alt)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_G.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "none",
+      "3": "road",
+      "4": "road",
+      "5": "road"
+    }
+  },
+  "road_H": {
+    "name": "Road H (4-Way Asym)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_H.fbx",
+    "edges": {
+      "0": "none",
+      "1": "road",
+      "2": "none",
+      "3": "road",
+      "4": "road",
+      "5": "road"
+    }
+  },
+  "road_I": {
+    "name": "Road I (4-Way X-Cross)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_I.fbx",
+    "edges": {
+      "0": "road",
+      "1": "none",
+      "2": "road",
+      "3": "road",
+      "4": "none",
+      "5": "road"
+    }
+  },
+  "road_J": {
+    "name": "Road J (4-Way Hub)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_J.fbx",
+    "edges": {
+      "0": "none",
+      "1": "road",
+      "2": "road",
+      "3": "road",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "road_K": {
+    "name": "Road K (5-Way Hub)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_K.fbx",
+    "edges": {
+      "0": "road",
+      "1": "none",
+      "2": "road",
+      "3": "road",
+      "4": "road",
+      "5": "road"
+    }
+  },
+  "road_L": {
+    "name": "Road L (6-Way Roundabout)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_L.fbx",
+    "edges": {
+      "0": "road",
+      "1": "road",
+      "2": "road",
+      "3": "road",
+      "4": "road",
+      "5": "road"
+    }
+  },
+  "road_M": {
+    "name": "Road M (Road Stub)",
+    "category": "roads",
+    "path": "./kaykit_full/Models/tiles/roads/hex_road_M.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "none",
+      "3": "none",
+      "4": "road",
+      "5": "none"
+    }
+  },
+  "river_crossing_A": {
+    "name": "River Crossing Bridge A",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_crossing_A.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "road",
+      "3": "none",
+      "4": "water",
+      "5": "road"
+    }
+  },
+  "river_crossing_B": {
+    "name": "River Crossing Bridge B",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_crossing_B.fbx",
+    "edges": {
+      "0": "road",
+      "1": "water",
+      "2": "none",
+      "3": "road",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_A": {
+    "name": "River A (Straight)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_A.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "none",
+      "3": "none",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_A_curvy": {
+    "name": "River A Curvy",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_A_curvy.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "none",
+      "3": "none",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_B": {
+    "name": "River B (Wide 120\u00b0 Bend)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_B.fbx",
+    "edges": {
+      "0": "water",
+      "1": "none",
+      "2": "none",
+      "3": "none",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_C": {
+    "name": "River C (Sharp 60\u00b0 Bend)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_C.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "none",
+      "3": "none",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "river_D": {
+    "name": "River D (3-Way Y-Junction)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_D.fbx",
+    "edges": {
+      "0": "water",
+      "1": "none",
+      "2": "water",
+      "3": "none",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_E": {
+    "name": "River E (3-Way Branch)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_E.fbx",
+    "edges": {
+      "0": "water",
+      "1": "water",
+      "2": "none",
+      "3": "none",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "river_F": {
+    "name": "River F (3-Way Branch Alt)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_F.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "water",
+      "3": "none",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_G": {
+    "name": "River G (3-Way Arrow)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_G.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "none",
+      "3": "water",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "river_H": {
+    "name": "River H (4-Way X-Cross)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_H.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "none",
+      "3": "water",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "river_I": {
+    "name": "River I (4-Way Asymmetric)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_I.fbx",
+    "edges": {
+      "0": "water",
+      "1": "none",
+      "2": "water",
+      "3": "water",
+      "4": "none",
+      "5": "water"
+    }
+  },
+  "river_J": {
+    "name": "River J (4-Way Hub)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_J.fbx",
+    "edges": {
+      "0": "none",
+      "1": "water",
+      "2": "water",
+      "3": "water",
+      "4": "water",
+      "5": "none"
+    }
+  },
+  "river_K": {
+    "name": "River K (5-Way Hub)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_K.fbx",
+    "edges": {
+      "0": "water",
+      "1": "none",
+      "2": "water",
+      "3": "water",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "river_L": {
+    "name": "River L (6-Way Roundabout)",
+    "category": "rivers",
+    "path": "./kaykit_full/Models/tiles/rivers/hex_river_L.fbx",
+    "edges": {
+      "0": "water",
+      "1": "water",
+      "2": "water",
+      "3": "water",
+      "4": "water",
+      "5": "water"
+    }
+  },
+  "coast_A": {
+    "name": "Coast A",
+    "category": "coast",
+    "path": "./kaykit_full/Models/tiles/coast/hex_coast_A.fbx",
+    "edges": {
+      "0": "none",
+      "1": "sand",
+      "2": "water",
+      "3": "sand",
+      "4": "none",
+      "5": "none"
+    }
+  },
+  "coast_B": {
+    "name": "Coast B",
+    "category": "coast",
+    "path": "./kaykit_full/Models/tiles/coast/hex_coast_B.fbx",
+    "edges": {
+      "0": "none",
+      "1": "sand",
+      "2": "water",
+      "3": "water",
+      "4": "sand",
+      "5": "none"
+    }
+  },
+  "coast_C": {
+    "name": "Coast C",
+    "category": "coast",
+    "path": "./kaykit_full/Models/tiles/coast/hex_coast_C.fbx",
+    "edges": {
+      "0": "sand",
+      "1": "water",
+      "2": "water",
+      "3": "water",
+      "4": "sand",
+      "5": "none"
+    }
+  },
+  "coast_D": {
+    "name": "Coast D",
+    "category": "coast",
+    "path": "./kaykit_full/Models/tiles/coast/hex_coast_D.fbx",
+    "edges": {
+      "0": "water",
+      "1": "water",
+      "2": "water",
+      "3": "water",
+      "4": "sand",
+      "5": "sand"
+    }
+  },
+  "coast_E": {
+    "name": "Coast E",
+    "category": "coast",
+    "path": "./kaykit_full/Models/tiles/coast/hex_coast_E.fbx",
+    "edges": {
+      "0": "none",
+      "1": "none",
+      "2": "sand",
+      "3": "sand",
+      "4": "none",
+      "5": "none"
+    }
+  },
+  "water": {
+    "category": "custom",
+    "edges": {
+      "0": "water",
+      "1": "water",
+      "2": "water",
+      "3": "water",
+      "4": "water",
+      "5": "water"
+    }
+  }
+}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hex World Generator</title>
+  <link rel="stylesheet" href="styles.css?v=8" />
+
+  <!-- ES Module Import Map for Three.js (Uses local node_modules with unpkg fallback) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./node_modules/three/build/three.module.js",
+      "three/addons/": "./node_modules/three/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="file-protocol-warning" style="display:none; position:fixed; top:0; left:0; width:100%; background:#ef4444; color:#fff; font-weight:bold; padding:12px; text-align:center; z-index:999999; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+    ⚠️ Browser Security Notice: You opened this file directly via file://. WebGL and 3D GLTF assets require an HTTP server. Please visit <a href="http://localhost:8080" style="color:#fff; text-decoration:underline;">http://localhost:8080</a> instead.
+  </div>
+  <div id="error-toast" style="display:none; position:fixed; bottom:20px; right:20px; max-width:450px; background:#7f1d1d; color:#fecaca; border:1px solid #dc2626; border-radius:8px; padding:14px 18px; z-index:999999; font-size:0.85rem; box-shadow:0 6px 20px rgba(0,0,0,0.6);">
+    <div style="font-weight:bold; color:#fff; margin-bottom:4px;" id="error-toast-title">Runtime Notification</div>
+    <div id="error-toast-msg"></div>
+    <button id="btn-toast-dismiss" style="margin-top:8px; padding:4px 10px; background:#b91c1c; border:none; color:#fff; border-radius:4px; cursor:pointer;">Dismiss</button>
+  </div>
+  <div id="canvas-container"></div>
+
+  <div id="ui-layer">
+    <header>
+      <div class="title-group">
+        <h1>⬡ Hex World Generator</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-top-random-seed" class="top-seed-btn" title="Generate New Random World Seed (Press R)">
+          <span class="seed-icon">🎲</span>
+          <span>New Seed</span>
+        </button>
+        <div class="mode-tabs">
+          <button id="tab-inspector" class="tab-btn active">🛠️ Tile & Edge Aligner</button>
+          <button id="tab-world" class="tab-btn">🌍 Procedural World</button>
+        </div>
+        <div id="daynight-widget" class="daynight-widget" title="Click to cycle Time of Day (Dawn, Day, Dusk, Night)">
+          <div class="daynight-circle">
+            <div id="daynight-dial" class="daynight-dial">
+              <span class="celestial-icon sun">☀️</span>
+              <span class="celestial-icon moon">🌙</span>
+            </div>
+          </div>
+          <span id="daynight-label" class="daynight-label">10:00 Day</span>
+        </div>
+        <div id="fps-counter" class="fps-counter">FPS: --</div>
+      </div>
+    </header>
+
+    <!-- Floating Progress HUD (Visible on all tabs, even when left menu is collapsed) -->
+    <div id="floating-gen-progress" class="floating-progress-banner" style="display: none;">
+      <div class="floating-progress-inner">
+        <span class="floating-progress-spinner">⏳</span>
+        <div class="floating-progress-details">
+          <div class="floating-progress-row">
+            <span id="floating-progress-status" class="floating-progress-status">Generating World...</span>
+            <span id="floating-progress-pct" class="floating-progress-pct">0%</span>
+          </div>
+          <div class="floating-progress-track">
+            <div id="floating-progress-bar" class="floating-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-wrapper" class="panel-wrapper">
+      <button id="btn-toggle-panel" class="panel-toggle-btn" title="Toggle Settings Panel (Press H or click)">
+        <span id="toggle-panel-icon">◀</span>
+        <span id="toggle-panel-text" class="toggle-panel-text"></span>
+      </button>
+
+      <div class="panel-container">
+        <!-- PANEL 1: Interactive Tile & Edge Aligner -->
+        <div id="panel-inspector" class="panel active">
+          <div class="panel-header-row" id="header-inspector" title="Click to collapse / expand (Press H)">
+            <h2>🛠️ Tile & Edge Aligner</h2>
+            <button id="btn-inspector-minimize" class="btn-panel-minimize" title="Collapse Panel (Press H)">◀ Hide</button>
+          </div>
+          <div style="font-size: 0.75rem; color: #94a3b8; margin-top: -4px;">
+            Click the 3D socket disks or use the selectors below to assign connectors to each of the 6 flat edges.
+          </div>
+
+          <div class="control-group">
+            <label for="select-category">Category</label>
+            <select id="select-category">
+              <option value="roads" selected>Roads (A through M)</option>
+              <option value="rivers">Rivers & Bridges</option>
+              <option value="coast">Coastlines</option>
+              <option value="base">Base Tiles</option>
+              <option value="buildings">Buildings</option>
+              <option value="nature">Nature & Rocks</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="select-tile">Active Model</label>
+            <div class="btn-row">
+              <button id="btn-tile-prev" class="btn" style="flex: 0 0 40px;">⬅</button>
+              <select id="select-tile" style="flex: 1;"></select>
+              <button id="btn-tile-next" class="btn" style="flex: 0 0 40px;">➡</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Model Rotation Preview</label>
+            <div class="btn-row">
+              <button id="btn-rot-prev" class="btn">↺ -60°</button>
+              <button id="btn-rot-reset" class="btn" style="flex: 0 0 50px;">0°</button>
+              <button id="btn-rot-next" class="btn">↻ +60°</button>
+            </div>
+            <div style="font-size: 0.75rem; color: #38bdf8; text-align: center; margin-top: 2px;" id="rot-label">
+              Step 0 (0°)
+            </div>
+          </div>
+
+          <!-- 6 Edge Connectors Configurator -->
+          <div class="control-group">
+            <label>Assign Edge Connectors:</label>
+            <div class="edge-rows-container" id="edge-rows-container">
+              <!-- Dynamically populated E0 through E5 -->
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top: 6px;">
+            <button id="btn-save-edges" class="btn btn-primary" style="font-weight: bold;">💾 Save & Apply to World</button>
+          </div>
+
+          <div class="btn-row">
+            <button id="btn-export-json" class="btn">📋 Export JSON</button>
+            <button id="btn-reset-defaults" class="btn">↺ Reset Defaults</button>
+          </div>
+
+          <div class="match-box" id="match-box-result" style="display: none;"></div>
+        </div>
+
+        <!-- PANEL 2: Procedural World Generator (Milestones 2-4) -->
+        <div id="panel-world" class="panel">
+          <div class="panel-header-row" id="header-world" title="Click to collapse (Press H)">
+            <h2>🌍 World Settings</h2>
+            <button id="btn-world-minimize" class="btn-panel-minimize" title="Collapse World Settings (Press H)">◀ Collapse</button>
+          </div>
+
+        <div class="control-group">
+          <label for="input-seed">World Seed</label>
+          <div class="btn-row">
+            <input type="number" id="input-seed" value="42" style="width: 130px;" />
+            <button id="btn-random-seed" class="btn">🎲 Random</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="select-map-shape">Map Shape:</label>
+          <select id="select-map-shape" style="width: 100%; padding: 8px; border-radius: 6px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; font-size: 0.9rem;">
+            <option value="rectangular" selected>📐 Rectangular (Diorama)</option>
+            <option value="hexagonal">⬡ Hexagonal</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="select-biome-mode">Biome Theme / Mode:</label>
+          <select id="select-biome-mode" style="width: 100%; padding: 8px; border-radius: 6px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; font-size: 0.9rem;">
+            <option value="multi" selected>🌍 Multi-Biome (Spring, Summer, Fall, Winter)</option>
+            <option value="spring">🌸 Spring (Meadows & River Valley)</option>
+            <option value="summer">☀️ Summer (Lush Forest & Bay)</option>
+            <option value="fall">🍂 Fall (Golden Autumn Savanna)</option>
+            <option value="winter">❄️ Winter (Alpine Snow Peaks)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label for="slider-radius" style="margin-bottom: 0;">Map Size: <span id="label-radius">11×6 (66 hexes)</span></label>
+            <span id="badge-map-hexes" class="badge-subtle" style="display: none;"></span>
+          </div>
+          <input type="range" id="slider-radius" min="5" max="50" step="1" value="6" />
+          <div class="preset-chip-row">
+            <button type="button" class="preset-chip active" data-radius="6">11×6</button>
+            <button type="button" class="preset-chip" data-radius="15">25×16</button>
+            <button type="button" class="preset-chip" data-radius="32">38×32</button>
+            <button type="button" class="preset-chip" data-radius="50">50×50</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="select-wfc-safety">WFC Solver & Contradiction Guard:</label>
+          <select id="select-wfc-safety" style="width: 100%; padding: 8px; border-radius: 6px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; font-size: 0.85rem;">
+            <option value="safe" selected>🛡️ Safe Fallback & Auto-Resolve (Crash-Proof)</option>
+            <option value="strict">⚡ Fast Strict Solver</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label for="slider-rivers" style="margin-bottom: 0;">Rivers: <span id="label-rivers" style="margin-left: 4px;">1 River</span></label>
+            <span id="badge-rivers-cap" class="badge-subtle" title="River capacity scales dynamically with map surface area">Max 2 (Small)</span>
+          </div>
+          <input type="range" id="slider-rivers" min="0" max="2" step="1" value="1" />
+        </div>
+
+        <div class="control-group">
+          <label for="slider-water">Ocean Coverage: <span id="label-water">8%</span></label>
+          <input type="range" id="slider-water" min="0.04" max="0.25" step="0.01" value="0.08" />
+        </div>
+
+        <div class="control-group">
+          <label for="slider-trees">Tree Density: <span id="label-trees">0.60</span></label>
+          <input type="range" id="slider-trees" min="0.1" max="1.0" step="0.05" value="0.60" />
+        </div>
+
+        <div class="control-group">
+          <label for="slider-mountains">Mountain Density: <span id="label-mountains">45%</span></label>
+          <input type="range" id="slider-mountains" min="0.0" max="1.0" step="0.05" value="0.45" />
+        </div>
+        <div class="control-group">
+          <label for="select-wall-style">Village Fortifications & Perimeter Walls:</label>
+          <select id="select-wall-style" style="width: 100%; padding: 8px; border-radius: 6px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; font-size: 0.85rem;">
+            <option value="walled" selected>🏰 Walled Fortified Towns (Perimeter Walls & Gates)</option>
+            <option value="mixed">🎲 Mixed (Fortified Towns & Open Hamlets)</option>
+            <option value="fenced">🏡 Open Fenced Hamlets (Stone Fences)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="slider-villages">Villages (Multi-Hex): <span id="label-villages">Auto (2)</span></label>
+          <input type="range" id="slider-villages" min="0" max="6" step="1" value="0" />
+        </div>
+
+        <div class="btn-row" style="margin-top: 8px;">
+          <button id="btn-regenerate" class="btn" style="background: #334155; font-weight: bold;">🔄 Regenerate (Same Seed)</button>
+          <button id="btn-new-seed" class="btn btn-primary" style="font-weight: bold;">🎲 New Seed (Random)</button>
+        </div>
+        
+        <div class="progress-box" id="gen-progress-container" style="display: none;">
+          <div class="progress-info-row">
+            <span id="gen-progress-label" class="progress-label">Synthesizing terrain...</span>
+            <span id="gen-progress-pct" class="progress-pct">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="gen-progress-bar"></div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.75rem; color: #94a3b8; line-height: 1.5; margin-top: 8px;">
+          Road networks are automatically formed using your configured connector rules from the <strong>Tile & Edge Aligner</strong> tab!
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- JSON Export Modal -->
+    <div id="modal-json" class="modal-backdrop" style="display: none;">
+      <div class="modal-box">
+        <h3>Tile Edge Configuration JSON</h3>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin: 4px 0 10px 0;">Copy or edit your custom tile connector mappings:</p>
+        <textarea id="textarea-json" rows="14" style="width: 100%; font-family: monospace; font-size: 0.75rem; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 6px; padding: 8px;"></textarea>
+        <div class="btn-row" style="margin-top: 10px;">
+          <button id="btn-copy-json" class="btn btn-primary">Copy to Clipboard</button>
+          <button id="btn-import-json" class="btn">Import from Box</button>
+          <button id="btn-close-modal" class="btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Living World Simulation HUD Bar -->
+    <div id="simulation-hud" class="simulation-hud" style="display: none;">
+      <div class="sim-pill">
+        <button id="btn-open-roster" class="sim-pop-btn" title="Tap to view Kingdom Population Roster & follow citizens">
+          <span id="sim-pop-summary" class="sim-pop-pill">🏃 250 Active Units</span>
+          <span class="sim-pop-hint">👥 View Roster</span>
+        </button>
+      </div>
+      <div class="sim-controls">
+        <button id="btn-sim-play-pause" class="sim-btn" title="Play/Pause Simulation">⏸️ Pause</button>
+        <button id="btn-sim-speed-1" class="sim-btn sim-speed-btn active" data-speed="1">1×</button>
+        <button id="btn-sim-speed-2" class="sim-btn sim-speed-btn" data-speed="2">2×</button>
+        <button id="btn-sim-speed-4" class="sim-btn sim-speed-btn" data-speed="4">4×</button>
+      </div>
+    </div>
+
+    <!-- Unit Inspector Card (pops up when clicking a character or animal) -->
+    <div id="unit-inspector-card" class="unit-card" style="display: none;">
+      <div class="unit-card-header">
+        <div class="unit-avatar" id="unit-avatar">🧑</div>
+        <div>
+          <div class="unit-name" id="unit-card-name">Aldous of Oakvale</div>
+          <div class="unit-role-tag" id="unit-card-role">🪓 Woodcutter</div>
+        </div>
+        <button id="btn-close-unit-card" class="unit-card-close">✕</button>
+      </div>
+      <div class="unit-card-body">
+        <div class="unit-stat-row">
+          <span class="unit-stat-label">Activity:</span>
+          <span class="unit-stat-val" id="unit-card-activity">Chopping timber at forest</span>
+        </div>
+        <div class="unit-stat-row">
+          <span class="unit-stat-label">Home Village:</span>
+          <span class="unit-stat-val" id="unit-card-home">Oakvale</span>
+        </div>
+        <div class="unit-stat-row">
+          <span class="unit-stat-label">Life Stage:</span>
+          <span class="unit-stat-val" id="unit-card-age">Adult Worker</span>
+        </div>
+      </div>
+      <div class="unit-card-actions">
+        <button id="btn-follow-unit" class="btn btn-sm btn-primary" style="width: 100%; font-size: 0.8rem; padding: 6px;">🎥 Follow with Camera</button>
+        <button id="btn-card-open-roster" class="btn btn-sm" style="width: 100%; font-size: 0.75rem; padding: 5px; margin-top: 6px; background: rgba(30, 41, 59, 0.9); color: #94a3b8; border: 1px solid #334155;">👥 Browse Full Roster</button>
+      </div>
+    </div>
+
+    <!-- Population Roster & Follow Modal -->
+    <div id="population-roster-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-box roster-modal-box">
+        <div class="roster-modal-header">
+          <div class="roster-title-area">
+            <h3 style="margin: 0; font-size: 1.15rem; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
+              👥 Kingdom Population Roster
+            </h3>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 3px;">
+              Tap any citizen or creature to inspect their life story and follow them with camera
+            </div>
+          </div>
+          <button id="btn-close-roster" class="unit-card-close" title="Close Roster">✕</button>
+        </div>
+
+        <div class="roster-stats-summary" id="roster-stats-summary">
+          <!-- Populated dynamically: Total, Active, Resting -->
+        </div>
+
+        <!-- Filter Chips & Search Bar -->
+        <div class="roster-toolbar">
+          <div class="roster-filter-chips" id="roster-filter-chips">
+            <button type="button" class="roster-chip active" data-filter="all">All (<span id="count-chip-all">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="farmer">🌾 Farmers (<span id="count-chip-farmer">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="lumberjack">🪓 Woodcutters (<span id="count-chip-lumberjack">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="water_carrier">💧 Water (<span id="count-chip-water_carrier">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="child">🧒 Children (<span id="count-chip-child">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="socializer">🏡 Villagers (<span id="count-chip-socializer">0</span>)</button>
+            <button type="button" class="roster-chip" data-filter="animal">🐾 Animals (<span id="count-chip-animal">0</span>)</button>
+          </div>
+          <div style="margin-top: 8px;">
+            <input type="text" id="input-roster-search" class="roster-search-input" placeholder="🔍 Search citizen by name, village, or activity..." />
+          </div>
+        </div>
+
+        <!-- Scrollable Citizen Cards Grid -->
+        <div class="roster-cards-container" id="roster-cards-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>Controls: <strong>Left Click</strong> to Rotate Camera / Click Sockets • <strong>Right Click</strong> to Pan • <strong>Scroll</strong> to Zoom</div>
+      <div>KayKit Medieval Hexagons • WebGL / Three.js</div>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js?v=8"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+*.zip
+imported_assets/
+unity_cookie.txt
+kaykit_full/
+kaykit_full
+KayKit_*
+kaykit_*
+*.unitypackage

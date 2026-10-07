@@ -19,6 +19,27 @@ import { LivingUnitManager } from './livingUnitManager.js';
 import { DayNightCycle } from './dayNightCycle.js';
 import { PerformanceLogger } from './perfLogger.js';
 
+// Force browser tab to reload favicon bypassing stubborn browser SQLite caches
+(function forceFaviconRefresh() {
+  try {
+    const existing = document.querySelectorAll("link[rel*='icon']");
+    existing.forEach(el => el.remove());
+    const svgIcon = document.createElement('link');
+    svgIcon.rel = 'icon';
+    svgIcon.type = 'image/svg+xml';
+    svgIcon.href = `favicon.svg?t=${Date.now()}`;
+    document.head.appendChild(svgIcon);
+
+    const pngIcon = document.createElement('link');
+    pngIcon.rel = 'alternate icon';
+    pngIcon.type = 'image/png';
+    pngIcon.href = `favicon-32x32.png?t=${Date.now()}`;
+    document.head.appendChild(pngIcon);
+  } catch (e) {
+    // Non-blocking
+  }
+})();
+
 // --- Scene, Camera, Lighting & Renderer Setup ---
 const container = document.getElementById('canvas-container');
 
